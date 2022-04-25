@@ -1,4 +1,4 @@
-package RiOS
+package main
 
 import (
 	"testing"
@@ -64,5 +64,6 @@ func TestFlow_Unmarshall_Succes(t *testing.T) {
 }
 
 func TestFlow_PerformCall(t *testing.T) {
-	fluxoObj.PerformCall(0)
+	paramsIn := ParamsCall{}
+	fluxoObj.PerformCall(0, &paramsIn)
 }

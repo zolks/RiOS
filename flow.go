@@ -1,4 +1,4 @@
-package RiOS
+package main
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 )
 
 type Node interface {
-	execute(mapNodes *map[int]Node)
+	execute(mapNodes *map[int]Node, paramsIn *ParamsCall) error
 }
 
 type Flow struct {
@@ -19,11 +19,17 @@ type Flow struct {
 	Nodes     map[int]Node `json:"nodes"`
 }
 
-func (f Flow) PerformCall(runFromNodeId int) {
+type ParamsCall struct {
+	Ani  string `json:"ani"`
+	Dnis string `json:"dnis"`
+	Cc   string `json:"cc"`
+}
+
+func (f Flow) PerformCall(runFromNodeId int, paramsIn *ParamsCall) error {
 	if runFromNodeId != 0 {
-		f.Nodes[runFromNodeId].execute(&f.Nodes)
+		return f.Nodes[runFromNodeId].execute(&f.Nodes, paramsIn)
 	} else {
-		f.Nodes[f.StartNode].execute(&f.Nodes)
+		return f.Nodes[f.StartNode].execute(&f.Nodes, paramsIn)
 	}
 }
 
@@ -100,10 +106,10 @@ type Start struct {
 	NextNodeId     int    `json:"next_node_id"`
 }
 
-func (node Start) execute(mapNodes *map[int]Node) {
+func (node Start) execute(mapNodes *map[int]Node, paramsIn *ParamsCall) error {
 	log.Printf("[%v] Bem-vindo: %v", node.Name, node.WelcomeMessage)
 	nextNode := (*mapNodes)[node.NextNodeId]
-	nextNode.execute(mapNodes)
+	return nextNode.execute(mapNodes, paramsIn)
 }
 
 //end node
@@ -114,8 +120,9 @@ type End struct {
 	EndCause string `json:"end_cause"`
 }
 
-func (node End) execute(mapNodes *map[int]Node) {
+func (node End) execute(mapNodes *map[int]Node, paramsIn *ParamsCall) error {
 	log.Printf("[%v] Chamada terminada com end cause: %v", node.Name, node.EndCause)
+	return nil
 }
 
 //cc node
@@ -128,7 +135,7 @@ type Callcenter struct {
 	ErrorNodeId      int    `json:"error_node_id"`
 }
 
-func (node Callcenter) execute(mapNodes *map[int]Node) {
+func (node Callcenter) execute(mapNodes *map[int]Node, paramsIn *ParamsCall) error {
 	log.Printf("[%v] Estamos transferindo para o callcenter: %v", node.Name, node.CallcenterNumber)
 	sucess := true
 
@@ -139,5 +146,5 @@ func (node Callcenter) execute(mapNodes *map[int]Node) {
 		nextNode = (*mapNodes)[node.ErrorNodeId]
 	}
 
-	nextNode.execute(mapNodes)
+	return nextNode.execute(mapNodes, paramsIn)
 }
