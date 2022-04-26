@@ -9,11 +9,13 @@ const (
 	Success                 = 0
 	Error                   = -1
 	InvalidEstablishRequest = -100
+	InvalidFlowRequest      = -101
 )
 
 var mapStatusCode = map[int]string{
 	Success:                 "OK",
 	InvalidEstablishRequest: "Invalid establish request.",
+	InvalidFlowRequest:      "Invalid flow register request.",
 }
 
 //Message returns map data
@@ -23,7 +25,7 @@ func Message(statusCode int) map[string]interface{} {
 
 //Message returns unrecovery error message
 func ErrorMessage(err error) map[string]interface{} {
-	return map[string]interface{}{"status": Error, "message": err}
+	return map[string]interface{}{"status": Error, "message": err.Error()}
 }
 
 //Respond returns basic response structure

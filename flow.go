@@ -13,10 +13,11 @@ type Node interface {
 }
 
 type Flow struct {
-	Id        int          `json:"id"`
-	Name      string       `json:"name"`
-	StartNode int          `json:"start_node"`
-	Nodes     map[int]Node `json:"nodes"`
+	Id            int          `json:"id"`
+	ServiceNumber string       `json:"service_number"`
+	Name          string       `json:"name"`
+	StartNode     int          `json:"start_node"`
+	Nodes         map[int]Node `json:"nodes"`
 }
 
 type ParamsCall struct {
@@ -53,6 +54,7 @@ func (f Flow) Unmarshall(jsonString string) (Flow, error) {
 	}
 
 	flow.Id = int(mapData["id"].(float64))
+	flow.ServiceNumber = mapData["service_number"].(string)
 	flow.Name = mapData["name"].(string)
 	flow.StartNode = int(mapData["start_node"].(float64))
 
@@ -141,6 +143,7 @@ func (node Callcenter) execute(mapNodes *map[int]Node, paramsIn *ParamsCall) err
 
 	var nextNode Node
 	if sucess == true {
+		paramsIn.Cc = node.CallcenterNumber
 		nextNode = (*mapNodes)[node.DefaultNodeId]
 	} else {
 		nextNode = (*mapNodes)[node.ErrorNodeId]

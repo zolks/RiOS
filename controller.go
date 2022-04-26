@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -18,6 +19,7 @@ func ExecuteEstablishController(c *gin.Context) {
 	//call service
 	if err := orchService.ExecuteEstablish(&params); err != nil {
 		Respond(c.Writer, http.StatusInternalServerError, ErrorMessage(err))
+		return
 	}
 
 	response := Message(Success)
@@ -25,4 +27,21 @@ func ExecuteEstablishController(c *gin.Context) {
 	//return response using api helper
 	Respond(c.Writer, http.StatusOK, response)
 
+}
+
+func RegisterFlowController(c *gin.Context) {
+	var orchService OrchestrationService
+	var flowJsonString []byte
+
+	flowJsonString, err := ioutil.ReadAll(c.Request.Body)
+	if err != nil {
+		Respond(c.Writer, http.StatusBadRequest, Message(InvalidEstablishRequest))
+		return
+	}
+
+	if err := orchService.RegistryFlow(string(flowJsonString)); err != nil {
+		Respond(c.Writer, http.StatusInternalServerError, ErrorMessage(err))
+	}
+
+	Respond(c.Writer, http.StatusOK, Message(Success))
 }
