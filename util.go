@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"sync"
 	"time"
 )
@@ -15,16 +16,29 @@ type FlowMapTTL struct {
 	l sync.Mutex
 }
 
-func NewFlowMapTTL(initialLen int, ttl int) (m *FlowMapTTL) {
+func NewFlowMapTTL(initialLen int, ttl int, cleanInterval time.Duration) (m *FlowMapTTL) {
 	m = &FlowMapTTL{m: make(map[string]*item, initialLen)}
 	go func() {
-		for now := range time.Tick(time.Second) {
+		for now := range time.Tick(cleanInterval) {
 			m.l.Lock()
+			var newest int64
+			oldest := now.Unix()
 			for k, v := range m.m {
 				if now.Unix()-v.insertTime > int64(ttl) {
 					delete(m.m, k)
+				} else if v.insertTime < oldest {
+					oldest = v.insertTime
+				}
+				if v.insertTime > newest {
+					newest = v.insertTime
 				}
 			}
+			if len(m.m) == 0 {
+				log.Printf("FlowMap statistics: active(0) newest(0) oldest(0) ttl(%v).", ttl)
+			} else {
+				log.Printf("FlowMap statistics: active(%v) newest(%v) oldest(%v) ttl(%v).", len(m.m), time.Unix(newest, 0), time.Unix(oldest, 0), ttl)
+			}
+
 			m.l.Unlock()
 		}
 	}()

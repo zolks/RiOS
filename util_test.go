@@ -7,14 +7,14 @@ import (
 
 func TestFlowMapTTL(t *testing.T) {
 
-	flowMap := NewFlowMapTTL(10, 2)
+	flowMap := NewFlowMapTTL(10, 1, time.Second)
 
 	flowMap.Put("0800997777", Flow{Id: 11})
 	flowMap.Put("0800997778", Flow{Id: 12})
 	flowMap.Put("0800997779", Flow{Id: 13})
 	flowMap.Put("0800997710", Flow{Id: 14})
 	flowMap.Put("0800997711", Flow{Id: 15})
-	time.Sleep(3 * time.Second)
+	time.Sleep(2 * time.Second)
 	flowMap.Put("0800997712", Flow{Id: 16})
 	flowMap.Put("0800997713", Flow{Id: 17})
 	flowMap.Put("0800997714", Flow{Id: 18})
