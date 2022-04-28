@@ -102,7 +102,7 @@ func TestRegisterFlowWithoutServiceNumberError(t *testing.T) {
 func TestPerformEstablishSuccess(t *testing.T) {
 
 	RedisClient, redisMock = redismock.NewClientMock()
-	redisMock.ExpectGet("0800994455").SetVal(`{"id":1001,"service_number":"0800994455","name":"Fluxo Teste","start_node":100,"nodes":{"100":{"id":100,"type":"Start","name":"Início","welcome_message":"Você ligou para a central vivo","next_node_id":101},"101":{"id":101,"type":"Callcenter","name":"CC_01","cc_number":"0800-998787","default_node_id":103,"error_node_id":102},"102":{"id":102,"type":"End","name":"End Error","end_cause":"504"},"103":{"id":103,"type":"End","name":"End OK","end_cause":"200"}}}`)
+	redisMock.ExpectGet("0800994455").SetVal(`{"id":1001,"service_number":"0800994455","name":"Fluxo Teste","start_node":100,"nodes":{"100":{"id":100,"type":"Start","name":"Início","welcome_message":"Você ligou para a central vivo","next_node_id":101},"101":{"id":101,"type":"Callcenter","name":"CC_01","active":true,"cc_number":"0800-998787","default_node_id":103,"error_node_id":102},"102":{"id":102,"type":"End","name":"End Error","end_cause":"504"},"103":{"id":103,"type":"End","name":"End OK","end_cause":"200"}}}`)
 
 	paramData := ParamsCall{
 		Ani:  "21981024950",

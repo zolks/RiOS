@@ -1,10 +1,11 @@
 package main
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-var fluxoJsonString string = `{"id":1001,"service_number":"0800994455","name":"Fluxo Teste","start_node":100,"nodes":{"100":{"id":100,"type":"Start","name":"Início","welcome_message":"Você ligou para a central vivo","next_node_id":101},"101":{"id":101,"type":"Callcenter","name":"CC_01","cc_number":"0800-998787","default_node_id":103,"error_node_id":102},"102":{"id":102,"type":"End","name":"End Error","end_cause":"504"},"103":{"id":103,"type":"End","name":"End OK","end_cause":"200"}}}`
+var fluxoJsonString string = `{"id":1001,"service_number":"0800994455","name":"Fluxo Teste","start_node":100,"nodes":{"100":{"id":100,"type":"Start","name":"Início","welcome_message":"Você ligou para a central vivo","next_node_id":101},"101":{"id":101,"type":"Callcenter","name":"CC_01","active":true,"cc_number":"0800-998787","default_node_id":103,"error_node_id":102},"102":{"id":102,"type":"End","name":"End Error","end_cause":"504"},"103":{"id":103,"type":"End","name":"End OK","end_cause":"200"}}}`
 
 var fluxoObj = Flow{
 	Id:            1001,
@@ -22,6 +23,7 @@ var fluxoObj = Flow{
 		101: Callcenter{
 			Id:               101,
 			Type:             "Callcenter",
+			Active:           true,
 			Name:             "CC_01",
 			CallcenterNumber: "0800-998787",
 			DefaultNodeId:    103,
@@ -64,7 +66,10 @@ func TestFlow_Unmarshall_Succes(t *testing.T) {
 	}
 }
 
-func TestFlow_PerformCall(t *testing.T) {
+func TestFlow_PerformSimpleTransferCallSucess(t *testing.T) {
 	paramsIn := ParamsCall{}
+	paramsIn.Ani = "2197879999"
+	paramsIn.Dnis = "0800778868"
 	fluxoObj.PerformCall(0, &paramsIn)
+	assert.Equal(t, "0800-998787", paramsIn.Cc)
 }

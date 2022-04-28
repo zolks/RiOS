@@ -132,20 +132,20 @@ type Callcenter struct {
 	Id               int    `json:"id"`
 	Type             string `json:"type"`
 	Name             string `json:"name"`
+	Active           bool   `json:"active"`
 	CallcenterNumber string `json:"cc_number"`
 	DefaultNodeId    int    `json:"default_node_id"`
 	ErrorNodeId      int    `json:"error_node_id"`
 }
 
 func (node Callcenter) execute(mapNodes *map[int]Node, paramsIn *ParamsCall) error {
-	log.Printf("[%v] Estamos transferindo para o callcenter: %v", node.Name, node.CallcenterNumber)
-	sucess := true
-
 	var nextNode Node
-	if sucess == true {
+	if node.Active == true {
+		log.Printf("[%v] Estamos transferindo para o callcenter: %v", node.Name, node.CallcenterNumber)
 		paramsIn.Cc = node.CallcenterNumber
 		nextNode = (*mapNodes)[node.DefaultNodeId]
 	} else {
+		log.Printf("[%v] Callcenter inativo: %v", node.Name, node.CallcenterNumber)
 		nextNode = (*mapNodes)[node.ErrorNodeId]
 	}
 
