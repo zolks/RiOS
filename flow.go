@@ -127,7 +127,7 @@ func (node End) execute(mapNodes *map[int]Node, paramsIn *ParamsCall) error {
 	return nil
 }
 
-//cc node
+//Cc node
 type Callcenter struct {
 	Id               int    `json:"id"`
 	Type             string `json:"type"`

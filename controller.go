@@ -41,6 +41,7 @@ func RegisterFlowController(c *gin.Context) {
 
 	if err := orchService.RegistryFlow(string(flowJsonString)); err != nil {
 		Respond(c.Writer, http.StatusInternalServerError, ErrorMessage(err))
+		return
 	}
 
 	Respond(c.Writer, http.StatusOK, Message(Success))

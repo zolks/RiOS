@@ -31,25 +31,25 @@ func (us *OrchestrationService) ExecuteEstablish(params *ParamsCall) (err error)
 
 func getFlowByDnis(dnis string) (flow Flow, err error) {
 
-	log.Printf("FlowMap: Getting Flow for dnis: %v", dnis)
+	log.Printf("FlowMap: Getting Flow for Dnis: %v", dnis)
 	flow = flowMap.Get(dnis)
 	if flow.Id == 0 {
-		log.Printf("FlowMap: Not Found for dnis: %v", dnis)
-		log.Printf("Redis: Getting Flow for dnis: %v", dnis)
+		log.Printf("FlowMap: Not Found for Dnis: %v", dnis)
+		log.Printf("Redis: Getting Flow for Dnis: %v", dnis)
 		jsonFlow, err := RedisClient.Get(ctx, dnis).Result()
 		if err == redis.Nil {
-			log.Printf("Redis: Not Found for dnis: %v", dnis)
+			log.Printf("Redis: Not Found for Dnis: %v", dnis)
 			//TODO: try from microservice
-			return flow, fmt.Errorf("Flow not found for dnis: %v", dnis)
+			return flow, fmt.Errorf("Flow not found for Dnis: %v", dnis)
 		} else if err != nil {
 			panic(err)
 		} else {
-			log.Printf("Redis: Found Flow for dnis: %v", dnis)
+			log.Printf("Redis: Found Flow for Dnis: %v", dnis)
 			flow, err = flow.Unmarshall(jsonFlow)
 			if err != nil {
 				log.Panic(err)
 			}
-			log.Printf("FlowMap: Add Flow for dnis: %v", dnis)
+			log.Printf("FlowMap: Add Flow for Dnis: %v", dnis)
 			flowMap.Put(flow.ServiceNumber, flow)
 		}
 	}
