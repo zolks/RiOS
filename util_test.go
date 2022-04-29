@@ -38,9 +38,9 @@ func TestFlowMapTTL(t *testing.T) {
 func TestGetEnvDefault(t *testing.T) {
 
 	keyEnv := "TEST_ENV"
-	defaultValue := "TEST_ENV"
-	settedValue := "TEST_ENV"
-	
+	defaultValue := "04"
+	settedValue := "42"
+
 	os.Setenv(keyEnv, settedValue)
 
 	assert.Equal(t, settedValue, getEnv(keyEnv, defaultValue))
