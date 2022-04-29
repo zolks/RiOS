@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+
+  rios-api:
+    image: sixbell/rios:develop
+    #volumes:
+    #  - .:/opt/app/api
+    environment:
+      - "GIN_MODE=release"
+      - "PORT=9080"
+      - "REDIS_HOST=ri-redis"
+      - "REDIS_PORT=6379"
+    ports:
+      - 9080:9080
+    networks:
+      - red
+
+  ri-redis:
+    image: redis
+    ports:
+      - 6379:6379
+    networks:
+      - red
+
+networks:
+  red:
+    driver: bridge

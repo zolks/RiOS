@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 	"sync"
 	"time"
 )
@@ -67,4 +68,13 @@ func (m *FlowMapTTL) Get(k string) (v Flow) {
 	}
 	m.l.Unlock()
 	return
+}
+
+// getEnv get key environment variable if exist otherwise return defalutValue
+func getEnv(key, defaultValue string) string {
+	value := os.Getenv(key)
+	if len(value) == 0 {
+		return defaultValue
+	}
+	return value
 }

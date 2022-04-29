@@ -2,11 +2,6 @@ package main
 
 import "time"
 
-var (
-	ListenAddr = "localhost:8080"
-	RedisAddr  = "localhost:6379"
-)
-
 var flowMap *FlowMapTTL
 
 func main() {
@@ -14,11 +9,10 @@ func main() {
 	router := SetupRouter()
 
 	//init redis connection
-	InitRedis(RedisAddr, 1)
+	InitRedis(getEnv("REDIS_HOST", "localhost")+":"+getEnv("REDIS_PORT", "6379"), 1)
 
 	//init flowMap
 	flowMap = NewFlowMapTTL(10, 30, time.Second*10)
 
-	router.Run(":9080")
-	router.Run(ListenAddr)
+	router.Run(":" + getEnv("HTTP_PORT", "9080"))
 }
