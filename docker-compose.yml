@@ -8,7 +8,7 @@ services:
     #  - .:/opt/app/api
     environment:
       - "GIN_MODE=release"
-      - "PORT=9080"
+      - "HTTP_PORT=9080"
       - "REDIS_HOST=ri-redis"
       - "REDIS_PORT=6379"
     ports:
