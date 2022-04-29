@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/stretchr/testify/assert"
+	"os"
 	"testing"
 	"time"
 )
@@ -30,5 +32,18 @@ func TestFlowMapTTL(t *testing.T) {
 	if flow2.Id != 16 {
 		t.Error("id:0800997712 NOT FOUND!")
 	}
+
+}
+
+func TestGetEnvDefault(t *testing.T) {
+
+	keyEnv := "TEST_ENV"
+	defaultValue := "TEST_ENV"
+	settedValue := "TEST_ENV"
+	
+	os.Setenv(keyEnv, settedValue)
+
+	assert.Equal(t, settedValue, getEnv(keyEnv, defaultValue))
+	assert.Equal(t, defaultValue, getEnv("ENV_NOT_SET", defaultValue))
 
 }
