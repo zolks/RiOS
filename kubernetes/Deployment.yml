@@ -23,7 +23,15 @@ spec:
       - env:
         - name: JAVA_OPTIONS
           value: -Xms15m -Xmx15m -Xmn15m
-        name: customer
+        - name: REDIS_HOST
+          value: redis-master
+        - name: REDIS_PORT
+          value: "6379"
+        - name: GIN_MODE
+          value: release
+        - name: HTTP_PORT
+          value: "9080"
+        name: rios
         image: sixbell/rios:v1
         imagePullPolicy: IfNotPresent
         ports:
