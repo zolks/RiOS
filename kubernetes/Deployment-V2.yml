@@ -30,9 +30,9 @@ spec:
             - name: GIN_MODE
               value: release
             - name: HTTP_PORT
-                value: "8080"
+              value: "8080"
             - name: API_VERSION
-                value: "v2"
+              value: "v2"
           name: rios
           image: sixbell/rios:v2
           imagePullPolicy: IfNotPresent

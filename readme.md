@@ -7,6 +7,10 @@ kubectl create namespace ri
 kubectl config set-context $(kubectl config current-context) --namespace=ri
 
 kubectl apply -f kubernetes/redis-master.yml 
+or
+kubectl apply -f <(istioctl kube-inject -f kubernetes/redis-deployment.yml) -n ri
+kubectl create -f kubernetes/redis-service.yml -n ri
+
 
 eval $(minikube docker-env)
 docker build -t sixbell/rios:v1 .
