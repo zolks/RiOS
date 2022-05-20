@@ -20,12 +20,12 @@ var mapStatusCode = map[int]string{
 
 //Message returns map data
 func Message(statusCode int) map[string]interface{} {
-	return map[string]interface{}{"status": statusCode, "message": mapStatusCode[statusCode]}
+	return map[string]interface{}{"status": statusCode, "message": mapStatusCode[statusCode], "version": getEnv("API_VERSION", "dev")}
 }
 
 //Message returns unrecovery error message
 func ErrorMessage(err error) map[string]interface{} {
-	return map[string]interface{}{"status": Error, "message": err.Error()}
+	return map[string]interface{}{"status": Error, "message": err.Error(), "version": getEnv("API_VERSION", "dev")}
 }
 
 //Respond returns basic response structure

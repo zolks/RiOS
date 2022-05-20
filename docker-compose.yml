@@ -11,6 +11,7 @@ services:
       - "HTTP_PORT=9080"
       - "REDIS_HOST=ri-redis"
       - "REDIS_PORT=6379"
+      - "API_VERSION=v0"
     ports:
       - 9080:9080
     networks:

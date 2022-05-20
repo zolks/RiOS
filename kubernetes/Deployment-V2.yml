@@ -3,19 +3,19 @@ kind: Deployment
 metadata:
   labels:
     app: rios
-    version: v1
+    version: v2
   name: rios
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: rios
-      version: v1
+      version: v2
   template:
     metadata:
       labels:
         app: rios
-        version: v1
+        version: v2
       annotations:
         sidecar.istio.io/inject: "true"
     spec:
@@ -30,11 +30,11 @@ spec:
             - name: GIN_MODE
               value: release
             - name: HTTP_PORT
-              value: "8080"
+                value: "8080"
             - name: API_VERSION
-              value: "v1"
+                value: "v2"
           name: rios
-          image: sixbell/rios:v1
+          image: sixbell/rios:v2
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
