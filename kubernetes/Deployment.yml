@@ -4,7 +4,7 @@ metadata:
   labels:
     app: rios
     version: v1
-  name: rios
+  name: rios-v1
 spec:
   replicas: 1
   selector:
