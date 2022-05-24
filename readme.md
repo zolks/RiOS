@@ -34,4 +34,6 @@ curl -X PUT $(minikube ip):$INGRESS_PORT/rios/registerFlow -d '{"id":1001,"servi
 
 ---- DELETE
 delete all -> kubectl delete all --all -n ri
+delete pod + replica set -> kubectl delete rs -l app=sigas,version=v1
+                            kubectl delete deployment -l app=sigas,version=v1   
 

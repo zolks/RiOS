@@ -9,7 +9,7 @@ services:
     environment:
       - "GIN_MODE=release"
       - "HTTP_PORT=9080"
-      - "REDIS_HOST=ri-redis"
+      - "REDIS_HOST=redis"
       - "REDIS_PORT=6379"
       - "API_VERSION=v0"
     ports:
@@ -17,7 +17,7 @@ services:
     networks:
       - red
 
-  ri-redis:
+  redis:
     image: redis
     ports:
       - 6379:6379
