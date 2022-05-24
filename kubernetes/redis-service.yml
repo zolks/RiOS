@@ -13,4 +13,4 @@ spec:
   selector:
     app: redis
     role: master
-      tier: backend
+    tier: backend
