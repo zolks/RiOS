@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 )
 
 const (
@@ -20,12 +21,12 @@ var mapStatusCode = map[int]string{
 
 //Message returns map data
 func Message(statusCode int) map[string]interface{} {
-	return map[string]interface{}{"status": statusCode, "message": mapStatusCode[statusCode], "version": getEnv("API_VERSION", "dev")}
+	return map[string]interface{}{"status": statusCode, "message": mapStatusCode[statusCode], "version": getEnv("API_VERSION", "dev"), "date": time.Now().Format(time.RFC3339)}
 }
 
 //Message returns unrecovery error message
 func ErrorMessage(err error) map[string]interface{} {
-	return map[string]interface{}{"status": Error, "message": err.Error(), "version": getEnv("API_VERSION", "dev")}
+	return map[string]interface{}{"status": Error, "message": err.Error(), "version": getEnv("API_VERSION", "dev"), "date": time.Now().Format(time.RFC3339)}
 }
 
 //Respond returns basic response structure
