@@ -26,6 +26,8 @@ kubectl apply -f kubernetes/Gateway.yml -n ri
 or
 kubectl create -f kubernetes/Gateway.yml -n ri
 
+update -> kubectl rollout restart deployment --selector=app=rios
+
 ------- TEST 
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
 curl -X PUT $(minikube ip):$INGRESS_PORT/rios/establish -d '{"ani": "21981024950", "dnis": "0800994455"}'
@@ -40,3 +42,4 @@ delete pod + replica set -> kubectl delete rs -l app=sigas,version=v1
 ---- DARK Launch
 kubectl create -f kubernetes/destination-rule-v1-v2.yml -n ri
 kubectl create -f kubernetes/virtual-service-v1-mirror-v2.yml -n ri
+kubectl logs rios-v2-7fd74d8f94-sws85 -c rios -n ri -f

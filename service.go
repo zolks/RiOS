@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/go-redis/redis/v8"
 	"log"
+	//"time"
 )
 
 type OrchestrationService struct {
@@ -13,6 +14,8 @@ type OrchestrationService struct {
 var ctx = context.TODO()
 
 func (us *OrchestrationService) ExecuteEstablish(params *ParamsCall) (err error) {
+
+	//time.Sleep(2 * time.Second)
 
 	flow, err := getFlowByDnis(params.Dnis)
 	if err != nil {
