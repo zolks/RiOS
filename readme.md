@@ -37,3 +37,6 @@ delete all -> kubectl delete all --all -n ri
 delete pod + replica set -> kubectl delete rs -l app=sigas,version=v1
                             kubectl delete deployment -l app=sigas,version=v1   
 
+---- DARK Launch
+kubectl create -f kubernetes/destination-rule-v1-v2.yml -n ri
+kubectl create -f kubernetes/virtual-service-v1-mirror-v2.yml -n ri
